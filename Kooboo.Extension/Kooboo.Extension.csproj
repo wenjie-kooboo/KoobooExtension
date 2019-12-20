@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Kooboo.Data">
+      <HintPath>..\Lib\Kooboo.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Kooboo.Sites">
+      <HintPath>..\Lib\Kooboo.Sites.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(SolutionDir)Kooboo/$(TargetFileName)&quot;&#xD;&#xA;if $(ConfigurationName) == Release copy /Y &quot;$(TargetDir)$(TargetFileName)&quot; &quot;$(SolutionDir)dist/$(TargetFileName)&quot;" />
+  </Target>
+
+</Project>
