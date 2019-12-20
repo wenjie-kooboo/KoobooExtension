@@ -15,9 +15,8 @@ bld/
 [Ll]og/
 [Oo]bj/
 
-/Kooboo.Web/Minifier/
-/Kooboo.Web/AppData/
-/Kooboo.Web/Mailing
+/Kooboo/
+
 
 *.csproj.user
 *.assets.json
