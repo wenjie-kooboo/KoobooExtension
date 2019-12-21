@@ -1,7 +1,10 @@
 ﻿using Kooboo.Data.Context;
 using Kooboo.Data.Interface;
 using Kooboo.Sites.Extensions;
+using Kooboo.Sites.Render;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Kooboo.Extension
 {
@@ -11,25 +14,29 @@ namespace Kooboo.Extension
 
         public RenderContext context { get; set; }
 
+        const string CODE_RUN = "k.ex.code.run";
+
         /// <summary>
-        /// Execute code for view (k.ex.code.load)
+        /// Execute code for view (k.ex.code.run)
         /// </summary>
         /// <param name="codeNames">Code/Script names or ids</param>
-        public void Load(params string[] codeNames)
+        public void Run(params string[] codeNames)
         {
             if (codeNames.Length == 0)
             {
-                var frontcontext = context.GetItem<Kooboo.Sites.Render.FrontContext>();
+                var frontcontext = context.GetItem<FrontContext>();
                 var viewName = frontcontext.ExecutingView.Name;
                 codeNames = new string[] { viewName };
             }
+            var codes = context.GetItem<List<string>>(CODE_RUN) ?? new List<string>();
+            var siteDb = context.WebSite.SiteDb();
             Array.ForEach(codeNames, name =>
             {
-                var executedKey = $"__code_{name}__";
-                var executed = context.GetItem<bool>(executedKey);
+                var executed = codes.Contains(name, StringComparer.OrdinalIgnoreCase);
                 if (!executed)
                 {
-                    var siteDb = context.WebSite.SiteDb();
+                    codes.Add(name);
+                    context.SetItem(codes, CODE_RUN);
                     if (name.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
                     {
                         var script = siteDb.Scripts.GetByNameOrId(name);
@@ -46,7 +53,6 @@ namespace Kooboo.Extension
                             Kooboo.Sites.Scripting.Manager.ExecuteCode(context, code.Body, code.Id);
                         }
                     }
-                    context.SetItem(true, executedKey);
                 }
             });
         }
