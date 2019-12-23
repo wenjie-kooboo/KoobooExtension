@@ -14,13 +14,13 @@ namespace Kooboo.Extension
 
         public RenderContext context { get; set; }
 
-        const string CODE_RUN = "k.ex.code.run";
+        const string CODE_REQUIRE = "k.ex.code.require";
 
         /// <summary>
-        /// Execute code for view (k.ex.code.run)
+        ///  Include codes or scripts (k.ex.code.require)
         /// </summary>
         /// <param name="codeNames">Code/Script names or ids</param>
-        public void Run(params string[] codeNames)
+        public void Require(params string[] codeNames)
         {
             if (codeNames.Length == 0)
             {
@@ -28,7 +28,7 @@ namespace Kooboo.Extension
                 var viewName = frontcontext.ExecutingView.Name;
                 codeNames = new string[] { viewName };
             }
-            var codes = context.GetItem<List<string>>(CODE_RUN) ?? new List<string>();
+            var codes = context.GetItem<List<string>>(CODE_REQUIRE) ?? new List<string>();
             var siteDb = context.WebSite.SiteDb();
             Array.ForEach(codeNames, name =>
             {
@@ -36,7 +36,7 @@ namespace Kooboo.Extension
                 if (!executed)
                 {
                     codes.Add(name);
-                    context.SetItem(codes, CODE_RUN);
+                    context.SetItem(codes, CODE_REQUIRE);
                     if (name.EndsWith(".js", StringComparison.OrdinalIgnoreCase))
                     {
                         var script = siteDb.Scripts.GetByNameOrId(name);
