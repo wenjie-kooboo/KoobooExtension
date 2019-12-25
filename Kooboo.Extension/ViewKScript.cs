@@ -2,9 +2,6 @@
 using Kooboo.Data.Interface;
 using Kooboo.Sites.Render;
 using Kooboo.Sites.Render.Components;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
 using System.Threading.Tasks;
 
 namespace Kooboo.Extension
@@ -18,12 +15,17 @@ namespace Kooboo.Extension
         /// <summary>
         /// k.ex.view.execute
         /// </summary>
-        public string Execute(string name, ExpandoObject jsObject = null)
+        public string Execute(string name, object parameters)
         {
-            return ExecuteAsync(name, jsObject)?.Result;
+            return ExecuteAsync(name, parameters)?.Result;
         }
 
-        private async Task<string> ExecuteAsync(string name, ExpandoObject jsObject)
+        public string Execute(string name)
+        {
+            return Execute(name, null);
+        }
+
+        private async Task<string> ExecuteAsync(string name, object parameters)
         {
             var setting = new ComponentSetting()
             {
@@ -43,14 +45,9 @@ namespace Kooboo.Extension
                 var kooboocontext = new FrontContext();
                 newcontext.SetItem(kooboocontext);
                 kooboocontext.RenderContext = newcontext;
-                if (jsObject != null)
+                if(parameters != null)
                 {
-                    var parameters = new Dictionary<string, object>();
-                    foreach (var item in jsObject)
-                    {
-                        parameters.Add(item.Key, item.Value);
-                    }
-                    newcontext.DataContext.Push(parameters);
+                    newcontext.DataContext.Push("exView", parameters);
                 }
                 viewresult = await ViewComponent.RenderAsync(newcontext, setting);
             }
