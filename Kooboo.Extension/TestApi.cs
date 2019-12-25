@@ -1,6 +1,7 @@
 ﻿//Copyright (c) 2018 Yardi Technology Limited. Http://www.kooboo.com 
 //All rights reserved.
 using Kooboo.Api;
+using Kooboo.Data.Context;
 using Kooboo.Sites.Extensions;
 using Kooboo.Sites.Render;
 using Kooboo.Sites.Render.Components;
@@ -44,7 +45,18 @@ namespace Kooboo.Extension
             string viewresult = null;
             if (ViewComponent != null)
             {
-                viewresult = await ViewComponent.RenderAsync(call.Context, setting);
+                var newcontext = new RenderContext();
+                newcontext.Request = call.Context.Request;
+                newcontext.User = call.Context.User;
+                newcontext.WebSite = call.Context.WebSite;
+                newcontext.Culture = call.Context.Culture;
+
+                FrontContext kooboocontext = new FrontContext();
+                newcontext.SetItem<FrontContext>(kooboocontext);
+                kooboocontext.RenderContext = newcontext;
+
+                newcontext.DataContext.Push("hello", "nihao");
+                viewresult = await ViewComponent.RenderAsync(newcontext, setting);
             }
             return viewresult;
         }
