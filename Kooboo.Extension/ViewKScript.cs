@@ -47,7 +47,7 @@ namespace Kooboo.Extension
                 kooboocontext.RenderContext = newcontext;
                 if(parameters != null)
                 {
-                    newcontext.DataContext.Push("exView", parameters);
+                    newcontext.DataContext.Push("view", parameters);
                 }
                 viewresult = await ViewComponent.RenderAsync(newcontext, setting);
             }
