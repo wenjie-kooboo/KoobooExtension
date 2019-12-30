@@ -13,19 +13,19 @@ namespace Kooboo.Extension
         public RenderContext context { get; set; }
 
         /// <summary>
-        /// k.ex.view.execute
+        /// k.ex.view.render
         /// </summary>
-        public string Execute(string name, object parameters)
+        public string Render(string name, object parameters)
         {
-            return ExecuteAsync(name, parameters)?.Result;
+            return RenderAsync(name, parameters)?.Result;
         }
 
-        public string Execute(string name)
+        public string Render(string name)
         {
-            return Execute(name, null);
+            return Render(name, null);
         }
 
-        private async Task<string> ExecuteAsync(string name, object parameters)
+        private async Task<string> RenderAsync(string name, object parameters)
         {
             var setting = new ComponentSetting()
             {
