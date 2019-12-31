@@ -9,7 +9,7 @@ using System.Collections.Generic;
 namespace Kooboo.Extension
 {
     /// <summary>
-    /// k.ex.site.
+    /// k.searchIndex.
     /// </summary>
     public class SearchIndexKScript : IkScript
     {

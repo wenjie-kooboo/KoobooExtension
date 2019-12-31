@@ -13,7 +13,7 @@ namespace Kooboo.Extension
         public RenderContext context { get; set; }
 
         /// <summary>
-        /// k.ex.view.render
+        /// k.view.render
         /// </summary>
         public string Render(string name, object parameters)
         {

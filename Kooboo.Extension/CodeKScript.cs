@@ -14,10 +14,10 @@ namespace Kooboo.Extension
 
         public RenderContext context { get; set; }
 
-        const string CODE_REQUIRE = "k.ex.code.require";
+        const string CODE_REQUIRE = "k.code.require";
 
         /// <summary>
-        ///  Include codes or scripts (k.ex.code.require)
+        ///  Include codes or scripts (k.code.require)
         /// </summary>
         /// <param name="codeNames">Code/Script names or ids</param>
         public void Require(params string[] codeNames)
