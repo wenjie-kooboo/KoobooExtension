@@ -9,8 +9,6 @@ namespace Kooboo.Extension
 {
     public class TestDataSource : SiteDataSource
     {
-        public FrontContext Context { get; internal set; }
-
         [Kooboo.Attributes.ReturnType(typeof(Int32))]
         public int Test()
         {
