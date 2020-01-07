@@ -25,9 +25,9 @@ Example 1: includes the code of the same name as the current view's name in "Dev
 k.code.require();
 ``` 
 
-Example 2: includes the code "lodash.min.js" in "Development/Scripts" and the code "helper" in "Development/Code"
+Example 2: includes the code "underscore-min.js" in "Development/Scripts" and the code "helper" in "Development/Code"
 ``` javascript
-k.code.require("lodash.min.js", "helper")
+k.code.require("underscore-min.js", "helper")
 ```
 
 ## k.view.render(name : string, parameters : any = null) : string   
